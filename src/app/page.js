@@ -1,98 +1,27 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Plus, Search, Edit3, Trash2, GripVertical, Check, X, Folder, FolderOpen, ArrowLeft, Settings } from 'lucide-react';
 
 const ProjectTodoList = () => {
-  const [folders, setFolders] = useState([
-    {
-      id: 1,
-      name: "Website Principal",
-      color: "blue",
-      description: "Desenvolvimento do site institucional"
-    },
-    {
-      id: 2,
-      name: "E-commerce",
-      color: "green",
-      description: "Loja virtual integrada"
-    },
-    {
-      id: 3,
-      name: "Dashboard Admin",
-      color: "purple",
-      description: "Painel administrativo"
+  // Função para carregar dados do localStorage
+  const loadFromLocalStorage = (key, defaultValue) => {
+    if (typeof window !== 'undefined') {
+      try {
+        const saved = localStorage.getItem(key);
+        if (saved) {
+          return JSON.parse(saved);
+        }
+      } catch (error) {
+        console.error(`Erro ao carregar ${key} do localStorage:`, error);
+      }
     }
-  ]);
+    return defaultValue;
+  };
 
-  const [tasks, setTasks] = useState([
-    // Website Principal
-    {
-      id: 1,
-      folderId: 1,
-      title: "Definir wireframes das páginas principais",
-      description: "Criar wireframes para Home, Sobre, Serviços e Contato",
-      category: "Design",
-      completed: false,
-      notes: "Usar Figma ou Adobe XD. Focar na experiência do usuário."
-    },
-    {
-      id: 2,
-      folderId: 1,
-      title: "Escolher paleta de cores e tipografia",
-      description: "Definir identidade visual do projeto",
-      category: "Design",
-      completed: true,
-      notes: "Paleta: #3B82F6, #1E40AF, #F3F4F6. Fonte: Inter"
-    },
-    {
-      id: 3,
-      folderId: 1,
-      title: "Desenvolver componentes reutilizáveis",
-      description: "Header, Footer, Button, Card, Modal",
-      category: "Frontend",
-      completed: false,
-      notes: "Criar design system com Storybook para documentação"
-    },
-    // E-commerce
-    {
-      id: 4,
-      folderId: 2,
-      title: "Configurar gateway de pagamento",
-      description: "Integração com Stripe/PayPal",
-      category: "Backend",
-      completed: false,
-      notes: "Testar em ambiente sandbox primeiro"
-    },
-    {
-      id: 5,
-      folderId: 2,
-      title: "Sistema de carrinho de compras",
-      description: "CRUD completo do carrinho",
-      category: "Frontend",
-      completed: false,
-      notes: "LocalStorage + Redux para gerenciamento de estado"
-    },
-    // Dashboard Admin
-    {
-      id: 6,
-      folderId: 3,
-      title: "Dashboard com métricas",
-      description: "Gráficos e estatísticas em tempo real",
-      category: "Frontend",
-      completed: false,
-      notes: "Usar Chart.js ou Recharts"
-    },
-    {
-      id: 7,
-      folderId: 3,
-      title: "Sistema de autenticação admin",
-      description: "Login seguro para administradores",
-      category: "Backend",
-      completed: true,
-      notes: "JWT + rate limiting implementado"
-    }
-  ]);
+  // Estados inicializados com valores vazios primeiro
+  const [folders, setFolders] = useState([]);
+  const [tasks, setTasks] = useState([]);
 
   const [currentFolder, setCurrentFolder] = useState(null); // null = view all folders
   const [searchTerm, setSearchTerm] = useState("");
@@ -101,6 +30,36 @@ const ProjectTodoList = () => {
   const [editingTask, setEditingTask] = useState(null);
   const [editingFolder, setEditingFolder] = useState(null);
   const [draggedTask, setDraggedTask] = useState(null);
+
+  // Carregar dados do localStorage após montar o componente
+  useEffect(() => {
+    const loadedFolders = loadFromLocalStorage('todoFolders', []);
+    const loadedTasks = loadFromLocalStorage('todoTasks', []);
+    setFolders(loadedFolders);
+    setTasks(loadedTasks);
+  }, []);
+
+  // Salvar pastas no localStorage sempre que mudarem
+  useEffect(() => {
+    if (typeof window !== 'undefined' && folders.length >= 0) {
+      try {
+        localStorage.setItem('todoFolders', JSON.stringify(folders));
+      } catch (error) {
+        console.error('Erro ao salvar pastas:', error);
+      }
+    }
+  }, [folders]);
+
+  // Salvar tarefas no localStorage sempre que mudarem
+  useEffect(() => {
+    if (typeof window !== 'undefined' && tasks.length >= 0) {
+      try {
+        localStorage.setItem('todoTasks', JSON.stringify(tasks));
+      } catch (error) {
+        console.error('Erro ao salvar tarefas:', error);
+      }
+    }
+  }, [tasks]);
 
   const [newTask, setNewTask] = useState({
     title: "",
@@ -560,7 +519,7 @@ const ProjectTodoList = () => {
 
         {/* Edit Task Modal */}
         {editingTask && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-lg p-6 w-full max-w-md">
               <h3 className="font-medium text-gray-900 mb-4">Editar Tarefa</h3>
               <div className="space-y-3">
@@ -626,8 +585,8 @@ const ProjectTodoList = () => {
 
         {/* Edit Folder Modal */}
         {editingFolder && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <div className="bg-white rounded-lg p-6 w-full max-w-md">
+          <div className="fixed inset-0 bg-gradient-to-br from-white/10 via-white/5 to-transparent backdrop-blur-xl flex items-center justify-center p-4 z-50">
+            <div className="bg-white rounded-lg p-6 w-full max-w-md shadow-2xl">
               <h3 className="font-medium text-gray-900 mb-4">Editar Pasta</h3>
               <div className="space-y-3">
                 <input
