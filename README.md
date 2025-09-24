@@ -1,8 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Lista de Tarefas (To-Do List)
 
-## Getting Started
+Este é um projeto de lista de tarefas desenvolvido com [Next.js](https://nextjs.org), uma aplicação web moderna para gerenciamento de tarefas diárias.
 
-First, run the development server:
+## Sobre o Projeto
+
+Esta aplicação permite que usuários criem, editem, marquem como concluídas e excluam tarefas de forma intuitiva. Foi desenvolvida utilizando React e Next.js para proporcionar uma experiência rápida e responsiva.
+
+### Funcionalidades
+- ✅ Adicionar novas tarefas
+- ✅ Marcar tarefas como concluídas
+- ✅ Editar tarefas existentes
+- ✅ Excluir tarefas
+- ✅ Interface limpa e responsiva
+
+## Pré-requisitos
+
+Antes de começar, certifique-se de ter instalado:
+- [Node.js](https://nodejs.org/) (versão 18 ou superior)
+- npm, yarn, pnpm ou bun (gerenciador de pacotes)
+
+## Como Executar o Projeto
+
+### Primeira vez rodando o projeto:
+
+1. **Clone o repositório ou faça download dos arquivos**
+
+2. **Instale as dependências:**
+```bash
+npm install
+# ou
+yarn install
+# ou
+pnpm install
+# ou
+bun install
+```
+
+3. **Execute o servidor de desenvolvimento:**
 
 ```bash
 npm run dev
@@ -14,23 +48,41 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. **Abra o navegador:**
+   Acesse [http://localhost:3000](http://localhost:3000) para visualizar a aplicação.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Estrutura do Projeto
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+to_do/
+├── src/
+│   └── app/
+│       ├── page.js        # Página principal da aplicação
+│       ├── layout.js      # Layout base
+│       └── globals.css    # Estilos globais
+├── public/                # Arquivos públicos (imagens, etc.)
+├── package.json          # Dependências do projeto
+└── README.md            # Este arquivo
+```
 
-## Learn More
+## Tecnologias Utilizadas
 
-To learn more about Next.js, take a look at the following resources:
+- **Next.js 15** - Framework React para produção
+- **React 19** - Biblioteca JavaScript para construção de interfaces
+- **CSS Modules** - Para estilização componentizada
+- **JavaScript** - Linguagem de programação principal
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Scripts Disponíveis
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `npm run dev` - Inicia o servidor de desenvolvimento
+- `npm run build` - Cria a versão de produção
+- `npm run start` - Inicia o servidor de produção
+- `npm run lint` - Executa o linter para verificar o código
 
-## Deploy on Vercel
+## Contribuindo
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Sinta-se à vontade para contribuir com melhorias para este projeto!
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Licença
+
+Este projeto está sob licença MIT.
